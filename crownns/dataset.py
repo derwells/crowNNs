@@ -2,7 +2,7 @@ import os
 import pandas as pd
 import numpy as np
 import torch
-import deepforest
+import deepforest.dataset
 
 from PIL import Image
 
