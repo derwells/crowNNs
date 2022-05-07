@@ -5,7 +5,7 @@ from deepforest import preprocess
 from deepforest import utilities
 from deepforest import main
 from sklearn.model_selection import train_test_split
-from train.config import *
+from config import *
 
 
 def get_xml(img_fname):
@@ -81,3 +81,14 @@ def preprocess_image(img_fname):
     # Write to CSVs
     write_to_csv(val_annots, VAL_ANNOTATIONS_PATH)
     write_to_csv(train_annots, TRAIN_ANNOTATIONS_PATH)
+
+
+def compile_annotations(xml_paths):
+    for xml in xml_paths:
+        temp_annotations = utilities.xml_to_annotations(xml)
+        write_to_csv(temp_annotations, ANNOTATIONS_PATH)
+
+
+def remove_files(paths):
+    for file in paths:
+        os.remove(file)

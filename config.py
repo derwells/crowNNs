@@ -8,8 +8,8 @@ configp.read(".config.cfg")
 WANDB_PROJECT_NAME = configp['wandb']['project_name']
 WANDB_ENTITY = configp['wandb']['entity']
 
-XML_PATH = "../data/annotations/"
-TRAIN_PATH = "../data/training/"
+XML_PATH = "data/annotations/"
+TRAIN_PATH = "data/training/"
 TIF_DIR = os.path.join(TRAIN_PATH, "RGB")
 ANNOTATIONS_PATH = os.path.join(TIF_DIR, "annotations.csv")
 

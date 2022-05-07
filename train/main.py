@@ -1,16 +1,10 @@
 import os
-import time
-import torch
-import train.helpers
 import wandb
 
-import numpy as np
-
 from crownns.main import crowNNs
-from deepforest import preprocess
-from deepforest import utilities
 from pytorch_lightning.loggers import WandbLogger
-from train.config import *
+
+from config import *
 
 wandb.init(
     project=WANDB_PROJECT_NAME,
@@ -19,14 +13,7 @@ wandb.init(
 wandb_logger = WandbLogger()
 
 
-if __name__ == "__main__":
-    train_imgs = train.helpers.get_train_images(TIF_DIR)
-    train_xmls = train.helpers.imgs_to_xml(train_imgs)
-
-    # Build cropped images folder + annotations in CROP_DIR
-    for img in train_imgs:
-        train.helpers.preprocess_image(img)
-
+def build_model():
     # Build model
     m = crowNNs()
 
@@ -44,5 +31,10 @@ if __name__ == "__main__":
     # Use WanDB logger for PyTorch lighning
     m.create_trainer(logger=wandb_logger)
 
+    return m
+
+if __name__ == "__main__":
+    model = build_model()
+
     # Start training
-    m.trainer.fit(m)
+    model.trainer.fit(model)
