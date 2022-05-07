@@ -8,19 +8,17 @@ from config import *
 
 
 if __name__ == "__main__":
-    wandb.init(
-        project=WANDB_PROJECT_NAME
-    )
+    wandb.init(project=WANDB_PROJECT_NAME)
     wandb_logger = WandbLogger()
 
     # Build model
     m = crowNNs()
 
     # Explicitly use GPU
-    m.config['gpus'] = '-1'
+    m.config["gpus"] = "-1"
 
     m.config["score_thresh"] = SCORE_THRESH
-    m.config["train"]['epochs'] = EPOCHS
+    m.config["train"]["epochs"] = EPOCHS
     m.config["workers"] = N_WORKERS
     m.config["batch_size"] = BATCH_SIZE
 

@@ -1,5 +1,4 @@
 import torch
-import crownns
 import crownns.model
 import crownns.dataset
 

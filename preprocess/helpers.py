@@ -14,9 +14,7 @@ def get_xml(img_fname):
     if os.path.exists(target_xml):
         return target_xml
     else:
-        print(
-            "{} cannot be found!".format(target_xml)
-        )
+        print("{} cannot be found!".format(target_xml))
 
 
 def imgs_to_xml(img_paths):
@@ -30,21 +28,13 @@ def imgs_to_xml(img_paths):
 
 def train_val_split(img_paths):
     n_images = len(img_paths)
-    val_paths = np.random.choice(
-        img_paths,
-        int(n_images*0.25) # 25% validation
-    )
+    val_paths = np.random.choice(img_paths, int(n_images * 0.25))  # 25% validation
 
     return val_paths
 
 
 def write_to_csv(df, csv_path):
-    df.to_csv(
-        csv_path,
-        mode='a',
-        header=not(os.path.exists(csv_path)),
-        index=False
-    )
+    df.to_csv(csv_path, mode="a", header=not (os.path.exists(csv_path)), index=False)
 
 
 def get_train_images(dir):
@@ -60,23 +50,18 @@ def preprocess_image(img_fname):
         path_to_raster=os.path.join(TIF_DIR, img_fname),
         annotations_file=ANNOTATIONS_PATH,
         base_dir=CROP_DIR,
-
         # Tile settings
         patch_size=PATCH_SIZE,
-        patch_overlap=PATCH_OVERLAP
+        patch_overlap=PATCH_OVERLAP,
     )
 
     img_paths = img_annotations.image_path.unique()
 
     val_paths = train_val_split(img_paths)
 
-    val_annots = img_annotations.loc[
-        img_annotations.image_path.isin(val_paths)
-    ]
+    val_annots = img_annotations.loc[img_annotations.image_path.isin(val_paths)]
 
-    train_annots = img_annotations.loc[
-        ~img_annotations.image_path.isin(val_paths)
-    ]
+    train_annots = img_annotations.loc[~img_annotations.image_path.isin(val_paths)]
 
     # Write to CSVs
     write_to_csv(val_annots, VAL_ANNOTATIONS_PATH)
