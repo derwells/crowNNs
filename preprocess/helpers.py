@@ -1,10 +1,9 @@
 import os
 import numpy as np
+import shutil
 
 from deepforest import preprocess
 from deepforest import utilities
-from deepforest import main
-from sklearn.model_selection import train_test_split
 from config import *
 
 
@@ -30,9 +29,10 @@ def imgs_to_xml(img_paths):
 
 
 def train_val_split(img_paths):
+    n_images = len(img_paths)
     val_paths = np.random.choice(
         img_paths,
-        int(len(img_paths)*0.25) # 25% validation
+        int(n_images*0.25) # 25% validation
     )
 
     return val_paths
@@ -68,7 +68,7 @@ def preprocess_image(img_fname):
 
     img_paths = img_annotations.image_path.unique()
 
-    val_paths = train_test_split(img_paths)
+    val_paths = train_val_split(img_paths)
 
     val_annots = img_annotations.loc[
         img_annotations.image_path.isin(val_paths)
@@ -93,6 +93,6 @@ def remove_paths(paths):
     for path in paths:
         if os.path.exists(path):
             if os.path.isdir(path):
-                os.rmdir(path)
+                shutil.rmtree(path)
             elif os.path.isfile(path):
                 os.remove(path)

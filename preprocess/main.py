@@ -23,8 +23,9 @@ def do_preprocessing():
     # Build cropped images folder + annotations in CROP_DIR
     start_time = time.time()
 
-    for img in train_imgs:
-        preprocess.helpers.preprocess_image(img)
+    for path in train_imgs:
+        print(path)
+        preprocess.helpers.preprocess_image(path)
 
     print(f"--- Preprocessing: {(time.time() - start_time):.2f} seconds ---")
 
