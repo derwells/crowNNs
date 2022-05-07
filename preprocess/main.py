@@ -1,4 +1,5 @@
 import os
+import time
 import preprocess.helpers
 
 from config import *
@@ -20,8 +21,12 @@ def do_preprocessing():
     preprocess.helpers.compile_annotations(train_xmls)
 
     # Build cropped images folder + annotations in CROP_DIR
+    start_time = time.time()
+
     for img in train_imgs:
         preprocess.helpers.preprocess_image(img)
+
+    print(f"--- Preprocessing: {(time.time() - start_time):.2f} seconds ---")
 
 
 if __name__ == "__main__":
