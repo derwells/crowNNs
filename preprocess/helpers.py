@@ -89,7 +89,10 @@ def compile_annotations(xml_paths):
         write_to_csv(temp_annotations, ANNOTATIONS_PATH)
 
 
-def remove_files(paths):
+def remove_paths(paths):
     for path in paths:
         if os.path.exists(path):
-            os.remove(path)
+            if os.path.isdir(path):
+                os.rmdir(path)
+            elif os.path.isfile(path):
+                os.remove(path)

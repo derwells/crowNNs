@@ -6,12 +6,12 @@ from config import *
 
 def do_preprocessing():
     # Remove previously-generated files
-    preprocess.helpers.remove_files([
+    preprocess.helpers.remove_paths([
         ANNOTATIONS_PATH,
         TRAIN_ANNOTATIONS_PATH,
-        VAL_ANNOTATIONS_PATH
+        VAL_ANNOTATIONS_PATH,
+        CROP_DIR
     ])
-    os.rmdir(CROP_DIR)
 
     train_imgs = preprocess.helpers.get_train_images(TIF_DIR)
     train_xmls = preprocess.helpers.imgs_to_xml(train_imgs)
