@@ -1,5 +1,12 @@
 import os
+import configparser
 
+configp = configparser.ConfigParser()
+configp.read(".config.cfg")
+
+
+WANDB_PROJECT_NAME = configp['wandb']['project_name']
+WANDB_ENTITY = configp['wandb']['entity']
 
 XML_PATH = "../data/annotations/"
 TRAIN_PATH = "../data/training/"

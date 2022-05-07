@@ -5,7 +5,7 @@ from deepforest import preprocess
 from deepforest import utilities
 from deepforest import main
 from sklearn.model_selection import train_test_split
-from config import *
+from train.config import *
 
 
 def get_xml(img_fname):
