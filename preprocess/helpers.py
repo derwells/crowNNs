@@ -90,5 +90,6 @@ def compile_annotations(xml_paths):
 
 
 def remove_files(paths):
-    for file in paths:
-        os.remove(file)
+    for path in paths:
+        if os.exists(path):
+            os.remove(path)
