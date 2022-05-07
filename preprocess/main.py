@@ -1,15 +1,7 @@
 import os
 import preprocess.helpers
-import wandb
 
-from pytorch_lightning.loggers import WandbLogger
 from config import *
-
-wandb.init(
-    project=WANDB_PROJECT_NAME,
-    entity=WANDB_ENTITY
-)
-wandb_logger = WandbLogger()
 
 
 def do_preprocessing():
