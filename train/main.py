@@ -38,4 +38,5 @@ if __name__ == "__main__":
     # Use WanDB logger for PyTorch lighning
     m.create_trainer(logger=wandb_logger)
 
-
+    # Start training
+    m.trainer.fit(m)
