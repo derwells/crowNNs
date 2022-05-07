@@ -4,3 +4,4 @@ data
 .*
 wandb
 deepforest_config.yml
+models

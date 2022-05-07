@@ -20,7 +20,9 @@ PATCH_SIZE = 225
 PATCH_OVERLAP = 0.05
 
 SCORE_THRESH = 0.3
-EPOCHS = 1
+EPOCHS = 10
 
 N_WORKERS = 10
 BATCH_SIZE = 3
+
+MODELS_DIR = configp['output']['model_dir']

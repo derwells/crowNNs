@@ -1,5 +1,6 @@
 import os
 import wandb
+import torch
 
 from crownns.main import crowNNs
 from pytorch_lightning.loggers import WandbLogger
@@ -32,3 +33,12 @@ if __name__ == "__main__":
 
     # Start training
     m.trainer.fit(m)
+
+    # After training
+    model_path = "{}/crownns-fcos-resnet50.pl".format(MODELS_DIR)
+
+    # Save checkpoint
+    m.trainer.save_checkpoint(model_path)
+
+    # Save model
+    torch.save(m.model.state_dict(), model_path)
