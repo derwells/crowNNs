@@ -6,14 +6,13 @@ from pytorch_lightning.loggers import WandbLogger
 
 from config import *
 
-wandb.init(
-    project=WANDB_PROJECT_NAME,
-    entity=WANDB_ENTITY
-)
-wandb_logger = WandbLogger()
 
+if __name__ == "__main__":
+    wandb.init(
+        project=WANDB_PROJECT_NAME
+    )
+    wandb_logger = WandbLogger()
 
-def build_model():
     # Build model
     m = crowNNs()
 
@@ -22,6 +21,8 @@ def build_model():
 
     m.config["score_thresh"] = SCORE_THRESH
     m.config["train"]['epochs'] = EPOCHS
+    m.config["workers"] = N_WORKERS
+    m.config["batch_size"] = BATCH_SIZE
 
     m.config["train"]["csv_file"] = TRAIN_ANNOTATIONS_PATH
     m.config["train"]["root_dir"] = os.path.dirname(TRAIN_ANNOTATIONS_PATH)
@@ -31,10 +32,5 @@ def build_model():
     # Use WanDB logger for PyTorch lighning
     m.create_trainer(logger=wandb_logger)
 
-    return m
-
-if __name__ == "__main__":
-    model = build_model()
-
     # Start training
-    model.trainer.fit(model)
+    m.trainer.fit(m)

@@ -6,7 +6,6 @@ configp.read(".config.cfg")
 
 
 WANDB_PROJECT_NAME = configp['wandb']['project_name']
-WANDB_ENTITY = configp['wandb']['entity']
 
 XML_PATH = "data/annotations/"
 TRAIN_PATH = "data/training/"
@@ -22,3 +21,6 @@ PATCH_OVERLAP = 0.05
 
 SCORE_THRESH = 0.3
 EPOCHS = 1
+
+N_WORKERS = 10
+BATCH_SIZE = 3
