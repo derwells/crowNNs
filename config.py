@@ -20,12 +20,13 @@ VAL_ANNOTATIONS_PATH = os.path.join(CROP_DIR, "val.csv")
 # Model configs
 model_configs = configp['model']
 
-PATCH_SIZE = model_configs['patch_size']
-PATCH_OVERLAP = model_configs['patch_overlap']
-SCORE_THRESH = model_configs['score_thresh']
-EPOCHS = model_configs['epochs']
-N_WORKERS = model_configs['n_workers']
-BATCH_SIZE = model_configs['batch_size']
+PATCH_SIZE  = configp.getfloat('model', 'patch_size')
+PATCH_OVERLAP = configp.getfloat('model', 'patch_overlap')
+SCORE_THRESH = configp.getfloat('model', 'score_thresh')
+EPOCHS = configp.getint('model', 'epochs')
+N_WORKERS = configp.getint('model', 'n_workers')
+BATCH_SIZE = configp.getint('model', 'batch_size')
+LEARNING_RATE = configp.getfloat('model', 'learning_rate')
 
 # Model output config
 MODELS_DIR = configp['output']['model_dir']
