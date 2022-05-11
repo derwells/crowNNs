@@ -28,6 +28,8 @@ if __name__ == "__main__":
     m.config["validation"]["csv_file"] = VAL_ANNOTATIONS_PATH
     m.config["validation"]["root_dir"] = os.path.dirname(VAL_ANNOTATIONS_PATH)
 
+    m.config["train"]["lr"] = LEARNING_RATE
+
     # Use WanDB logger for PyTorch lighning
     m.create_trainer(logger=wandb_logger)
 
