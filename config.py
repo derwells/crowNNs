@@ -4,9 +4,10 @@ import configparser
 configp = configparser.ConfigParser()
 configp.read(".config.cfg")
 
-
+# wandb configs
 WANDB_PROJECT_NAME = configp['wandb']['project_name']
 
+# Training/Eval folder configs
 XML_PATH = "data/annotations/"
 TRAIN_PATH = "data/training/"
 TIF_DIR = os.path.join(TRAIN_PATH, "RGB")
@@ -16,13 +17,15 @@ CROP_DIR = os.path.join(TRAIN_PATH, "crop")
 TRAIN_ANNOTATIONS_PATH = os.path.join(CROP_DIR, "train.csv")
 VAL_ANNOTATIONS_PATH = os.path.join(CROP_DIR, "val.csv")
 
-PATCH_SIZE = 225
-PATCH_OVERLAP = 0.05
+# Model configs
+model_configs = configp['model']
 
-SCORE_THRESH = 0.3
-EPOCHS = 10
+PATCH_SIZE = model_configs['patch_size']
+PATCH_OVERLAP = model_configs['patch_overlap']
+SCORE_THRESH = model_configs['score_thresh']
+EPOCHS = model_configs['epochs']
+N_WORKERS = model_configs['n_workers']
+BATCH_SIZE = model_configs['batch_size']
 
-N_WORKERS = 10
-BATCH_SIZE = 3
-
+# Model output config
 MODELS_DIR = configp['output']['model_dir']
