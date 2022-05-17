@@ -23,6 +23,7 @@ model_configs = configp['model']
 PATCH_SIZE  = configp.getfloat('model', 'patch_size')
 PATCH_OVERLAP = configp.getfloat('model', 'patch_overlap')
 SCORE_THRESH = configp.getfloat('model', 'score_thresh')
+NMS_THRESH = configp.getfloat('model', 'nms_thresh')
 EPOCHS = configp.getint('model', 'epochs')
 N_WORKERS = configp.getint('model', 'n_workers')
 BATCH_SIZE = configp.getint('model', 'batch_size')
