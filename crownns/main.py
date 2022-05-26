@@ -7,6 +7,10 @@ import deepforest.main
 import deepforest.dataset
 import deepforest.utilities
 
+import pytorch_lightning as pl
+from pytorch_lightning.callbacks import LearningRateMonitor
+
+
 
 class crowNNs(deepforest.main.deepforest):
     """
@@ -48,3 +52,21 @@ class crowNNs(deepforest.main.deepforest):
         )
 
         return data_loader
+
+    def create_trainer(self, logger=None, callbacks=[], **kwargs):
+        """Override create_trainer"""
+        
+        #If val data is passed, monitor learning rate and setup classification metrics
+        if not self.config["validation"]["csv_file"] is None:
+            if logger is not None:
+                lr_monitor = LearningRateMonitor(logging_interval='epoch')
+                callbacks.append(lr_monitor)
+        
+        self.trainer = pl.Trainer(logger=logger,
+                                max_epochs=self.config["train"]["epochs"],
+                                gpus=self.config["gpus"],
+                                enable_checkpointing=True,
+                                accelerator=self.config["distributed_backend"],
+                                fast_dev_run=self.config["train"]["fast_dev_run"],
+                                callbacks=callbacks,
+                                **kwargs)

@@ -27,7 +27,7 @@ if __name__ == "__main__":
     if args.skip == True:
         exit()
     wandb.init(project=WANDB_PROJECT_NAME)
-    wandb_logger = WandbLogger()
+    wandb_logger = WandbLogger(log_model="all")
 
     # Build model
     if args.checkpoint is not None:
