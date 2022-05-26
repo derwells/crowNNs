@@ -10,23 +10,30 @@ from config import *
 import gc
 import argparse
 
-gc.collect()
-torch.cuda.empty_cache()
-
 parser = argparse.ArgumentParser()
-parser.add_argument('--nms', '-n', type=int)
-parser.add_argument('--lr', '-l', type=int)
+parser.add_argument('--nms', '-n', type=float)
+parser.add_argument('--lr', '-l', type=float)
 parser.add_argument('--epochs', '-e', type=int)
 parser.add_argument('--dir', '-d', type=str)
+parser.add_argument('--skip', '-s', type=bool)
+parser.add_argument('--checkpoint', '-c', type=str)
 args = parser.parse_args()
 
 
 if __name__ == "__main__":
+    gc.collect()
+    torch.cuda.empty_cache()
+
+    if args.skip == True:
+        exit()
     wandb.init(project=WANDB_PROJECT_NAME)
     wandb_logger = WandbLogger()
 
     # Build model
-    m = crowNNs()
+    if args.checkpoint is not None:
+        m = crowNNs().load_from_checkpoint(args.checkpoint)
+    else:
+        m = crowNNs()
 
     # Explicitly use GPU
     m.config["gpus"] = "-1"
@@ -51,12 +58,13 @@ if __name__ == "__main__":
     if args.epochs is not None:
         m.config["train"]["epochs"] = args.epochs
 
-    dir = f'{m.config["nms_thresh"]}-{m.config["train"]["lr"]}-{m.config["train"]["epochs"]}'
+    dir = f'nms={m.config["nms_thresh"]}-lr={m.config["train"]["lr"]}-e={m.config["train"]["epochs"]}'
     if args.dir is not None:
         dir = args.dir
+    os.mkdir(dir)
 
     callback = ModelCheckpoint(
-        dirpath=args.dir,
+        dirpath=dir,
         filename='box_precision-{epoch}',
         monitor='box_recall', 
         mode="max",
