@@ -8,10 +8,6 @@ from config import *
 SCORE_THRESH = 0.35
 
 
-def f1_score(p, r):
-    return 2 * p * r / (p + r)
-
-
 def predict_image(mfile):
     m = crowNNs().load_from_checkpoint(mfile)
     m.config["score_thresh"] = SCORE_THRESH

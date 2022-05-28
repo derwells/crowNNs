@@ -19,6 +19,7 @@ def eval(mfile):
     m.freeze()
 
     predictions = m.predict_file(csv_file=target_csv, root_dir=root_dir)
+    predictions = add_site_field(predictions)
 
     ground_truth = pd.read_csv(target_csv)
 
@@ -27,13 +28,28 @@ def eval(mfile):
     )
 
     result = result["results"]
+    result = add_site_field(result)
     result["match"] = result.IoU > 0.4
-    true_positive = sum(result["match"])
-    recall = true_positive / result.shape[0]
-    precision = true_positive / predictions.shape[0]
 
-    print(precision, recall)
-    print(f1_score(precision, recall))
+    sites = result["site"].unique()
+    print(len(sites))
+    for site in sites:
+
+        r_site = result[result["site"] == site]
+        p_site = predictions[predictions["site"] == site]
+
+        if r_site.shape[0] == 0 or p_site.shape[0]:
+            print(f"No preds for {site}")
+            continue
+
+        true_positive = sum(r_site["match"])
+        recall = true_positive / r_site.shape[0]
+        precision = true_positive / p_site.shape[0]
+
+        if precision >= 0.55 and recall >= 0.5:
+            print(site)
+            print(precision, recall)
+            print(f1_score(precision, recall))
 
 
 if __name__ == "__main__":
@@ -46,5 +62,3 @@ if __name__ == "__main__":
     for mfile in models_to_test:
         print(mfile)
         eval(mfile)
-
-
