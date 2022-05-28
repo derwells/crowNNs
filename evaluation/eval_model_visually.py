@@ -1,13 +1,12 @@
 import argparse
 import pandas as pd
 
-from deepforest import evaluate
 from deepforest import visualize
 from crownns.main import crowNNs
+from evaluation.helpers import *
 from config import *
 
-EVAL_CSV = "data/evaluation/RGB/benchmark_annotations.csv"
-EVAL_ROOT = "data/evaluation/RGB"
+SCORE_THRESH = 0.325
 
 
 def f1_score(p, r):
@@ -19,30 +18,17 @@ def eval_img(mfile):
     root_dir = EVAL_ROOT
 
     m = crowNNs().load_from_checkpoint(mfile)
-    m.config["score_thresh"] = 0.325
+    m.config["score_thresh"] = SCORE_THRESH
     m.freeze()
 
     predictions = m.predict_file(csv_file=target_csv_path, root_dir=root_dir)
 
     ground_truth = pd.read_csv(target_csv_path)
 
-    result = evaluate.evaluate(
-        predictions=predictions,
-        ground_df=ground_truth,
-        root_dir=root_dir,
-    )
-
     files = visualize.plot_prediction_dataframe(
         predictions, root_dir, ground_truth=ground_truth, savedir="temp"
     )
     print(files)
-
-
-def get_models_to_test(model_dir):
-    models_to_test = os.listdir(model_dir)
-    models_to_test = [model_dir + e for e in models_to_test]
-
-    return models_to_test
 
 
 if __name__ == "__main__":

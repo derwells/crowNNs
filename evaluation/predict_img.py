@@ -1,13 +1,10 @@
-import os
 import argparse
-import pandas as pd
-
 import matplotlib.pyplot as plt
+
 from crownns.main import crowNNs
+from evaluation.helpers import *
 from config import *
 
-EVAL_CSV = "data/evaluation/RGB/benchmark_annotations.csv"
-EVAL_ROOT = "data/evaluation/RGB"
 SCORE_THRESH = 0.35
 
 
@@ -26,13 +23,6 @@ def predict_image(mfile):
 
     plt.imshow(img[:, :, ::-1])
     plt.savefig("test.png")
-
-
-def get_models_to_test(model_dir):
-    models_to_test = os.listdir(model_dir)
-    models_to_test = [model_dir + e for e in models_to_test]
-
-    return models_to_test
 
 
 if __name__ == "__main__":

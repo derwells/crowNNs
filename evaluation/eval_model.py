@@ -4,10 +4,9 @@ import pandas as pd
 
 from deepforest import evaluate
 from crownns.main import crowNNs
+from evaluation.helpers import *
 from config import *
 
-EVAL_CSV = "data/evaluation/RGB/benchmark_annotations.csv"
-EVAL_ROOT = "data/evaluation/RGB"
 SCORE_THRESH = 0.3
 
 
