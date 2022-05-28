@@ -40,13 +40,6 @@ def eval(mfile):
     print(f1_score(precision, recall))
 
 
-def get_models_to_test(model_dir):
-    models_to_test = os.listdir(model_dir)
-    models_to_test = [model_dir + e for e in models_to_test]
-
-    return models_to_test
-
-
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--model_dir", "-d", type=str)
