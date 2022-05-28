@@ -8,7 +8,9 @@ import deepforest.dataset
 import deepforest.utilities
 
 import pytorch_lightning as pl
+
 from pytorch_lightning.callbacks import LearningRateMonitor
+from torch import optim
 
 
 
@@ -70,3 +72,46 @@ class crowNNs(deepforest.main.deepforest):
                                 fast_dev_run=self.config["train"]["fast_dev_run"],
                                 callbacks=callbacks,
                                 **kwargs)
+
+
+    def configure_optimizers(self):
+        optimizer = optim.SGD(self.model.parameters(),
+                                   lr=self.config["train"]["lr"],
+                                   momentum=0.9)
+        scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer,
+                                                            mode='min',
+                                                            factor=0.1,
+                                                            patience=10,
+                                                            verbose=True,
+                                                            threshold=0.0001,
+                                                            threshold_mode='rel',
+                                                            cooldown=0,
+                                                            min_lr=0,
+                                                            eps=1e-08)
+
+        #Monitor rate is val data is used
+        if self.config["validation"]["csv_file"] is not None:
+            return {'optimizer':optimizer, 'lr_scheduler': scheduler,"monitor":'val_classification'}
+        else:
+            return optimizer
+
+
+    def training_step(self, batch, batch_idx):
+        """Train on a loaded dataset
+        """
+        # Confirm model is in train mode
+        self.model.train()
+        
+        # Allow for empty data if data augmentation is generated
+        path, images, targets = batch
+
+        loss_dict = self.model.forward(images, targets)
+
+        # sum of regression and classification loss
+        losses = sum([loss for loss in loss_dict.values()])
+
+        # Log training loss
+        for key, value in loss_dict.items():
+            self.log("loss_{}".format(key), value, on_step=True)     
+
+        return losses
