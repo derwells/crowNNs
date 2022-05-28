@@ -10,10 +10,6 @@ from config import *
 SCORE_THRESH = 0.3
 
 
-def f1_score(p, r):
-    return 2 * p * r / (p + r)
-
-
 def eval(mfile):
     target_csv = EVAL_CSV
     root_dir = EVAL_ROOT
@@ -48,6 +44,7 @@ if __name__ == "__main__":
     models_to_test = get_models_to_test(args.model_dir)
 
     for mfile in models_to_test:
+        print(mfile)
         eval(mfile)
 
 
