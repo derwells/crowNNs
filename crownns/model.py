@@ -23,11 +23,9 @@ def create_model(num_classes, nms_thresh, score_thresh, backbone=None):
     if not backbone:
         fcos = load_backbone()
         backbone = fcos.backbone
-
     model = FCOS(
         backbone=backbone,
         num_classes=num_classes,
-        anchor_generator=create_anchor_generator()
     )
     model.nms_thresh = nms_thresh
     model.score_thresh = score_thresh
