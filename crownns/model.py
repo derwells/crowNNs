@@ -1,6 +1,7 @@
 import torchvision
 
 from torchvision.models.detection.fcos import FCOS
+from deepforest.model import create_anchor_generator
 
 
 def load_backbone():
@@ -23,7 +24,11 @@ def create_model(num_classes, nms_thresh, score_thresh, backbone=None):
         fcos = load_backbone()
         backbone = fcos.backbone
 
-    model = FCOS(backbone=backbone, num_classes=num_classes)
+    model = FCOS(
+        backbone=backbone,
+        num_classes=num_classes,
+        anchor_generator=create_anchor_generator()
+    )
     model.nms_thresh = nms_thresh
     model.score_thresh = score_thresh
 
