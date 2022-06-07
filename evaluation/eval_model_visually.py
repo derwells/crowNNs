@@ -10,6 +10,8 @@ SCORE_THRESH = 0.325
 
 
 def eval_img(mfile, save_dir):
+    """Evaluate a single image with ground-truth."""
+
     target_csv_path = EVAL_CSV
     root_dir = EVAL_ROOT
 

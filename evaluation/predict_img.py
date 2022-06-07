@@ -6,15 +6,17 @@ from evaluation.helpers import *
 from config import *
 
 SCORE_THRESH = 0.35
-
+IMG_PATH = ""
 
 def predict_image(mfile):
+    """Predict trees given an images"""
+
     m = crowNNs().load_from_checkpoint(mfile)
     m.config["score_thresh"] = SCORE_THRESH
     m.freeze()
 
     img = m.predict_image(
-        path="data/evaluation/RGB/UKFS_024_2020.tif", return_plot=True
+        path=IMG_PATH, return_plot=True
     )
 
     plt.imshow(img[:, :, ::-1])

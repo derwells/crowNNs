@@ -11,6 +11,8 @@ SCORE_THRESH = 0.3
 
 
 def eval(mfile):
+    """Evaluate the training set using the model."""
+
     target_csv = EVAL_CSV
     root_dir = EVAL_ROOT
 
