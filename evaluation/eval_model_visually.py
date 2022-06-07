@@ -10,7 +10,7 @@ SCORE_THRESH = 0.325
 
 
 def eval_img(mfile, save_dir):
-    """Evaluate a single image with ground-truth."""
+    """Show model predicitons on testing set."""
 
     target_csv_path = EVAL_CSV
     root_dir = EVAL_ROOT
@@ -31,7 +31,7 @@ def eval_img(mfile, save_dir):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--m_file", "-d", type=str)
+    parser.add_argument("--m_file", "-m", type=str)
     parser.add_argument("--save_dir", "-s", type=str)
     args = parser.parse_args()
 
